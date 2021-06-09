@@ -38,12 +38,64 @@ def read_portfolio(filename):
         headers = next(rows)
 
         for row in rows:
-            stock = {}
-            name, shares, price = row
-            stock['name'] = name
-            stock['shares'] = int(shares)
-            stock['price'] = float(price)
+            stock = {
+                'name':row[0],
+                'shares':int(row[1]),
+                'price':float(row[2])
+            }
+            # name, shares, price = row
+            # stock['name'] = name
+            # stock['shares'] = int(shares)
+            # stock['price'] = float(price)
             portfolio.append(stock)
 
     return portfolio
 
+def read_prices(filename):
+    
+    prices = {}
+
+    with open(filename, 'rt') as file:
+        rows = csv.reader(file)
+        # headers = next(rows)
+
+        for row in rows:
+            if len(row) != 0:
+            #     print(row)
+            # else:
+                prices[row[0]] = float(row[1])
+
+    return prices
+
+def make_report(portfolio, prices):
+    report = []
+    
+    for stock in portfolio:
+        current_price = prices[stock['name']]
+        change = stock['price'] - current_price
+        summary = (stock['name'], stock['shares'], current_price, change)
+        report.append(summary)
+
+    
+    return report
+
+portfolio = read_portfolio('Data/portfolio.csv')
+prices    = read_prices('Data/prices.csv')
+
+
+# Calculate the total cost of the portfolio
+total_cost = 0.0
+for stocks in portfolio:
+    total_cost += stocks['shares']*stocks['price']
+
+# print('Total cost', total_cost)
+
+# Compute the current value of the portfolio
+total_value = 0.0
+for stocks in portfolio:
+    # print(s)
+    total_value += stocks['shares']*prices[stocks['name']]
+
+# print(prices)
+# print('Current value', total_value)
+# print('Gain', total_value - total_cost)

@@ -53,3 +53,5 @@ for s in portfolio:
 
 print('Current value', total_value)
 print('Gain', total_value - total_cost)
+print(portfolio)
+print(prices)
