@@ -37,12 +37,20 @@ def read_portfolio(filename):
         rows = csv.reader(file)
         headers = next(rows)
 
-        for row in rows:
+# { name: func(val) for name, func, val in zip(headers, types, row) }
+        for i, row in enumerate(rows, start=1):
+            record = dict(zip(headers, row))
             stock = {
-                'name':row[0],
-                'shares':int(row[1]),
-                'price':float(row[2])
+                # 'name':row[0],
+                'name' : record['name'],
+                # 'shares':int(row[1]),
+                'shares':int(record['shares']),
+                # 'price':float(row[2])
+                'price':float(record['price'])
             }
+            
+
+
             # name, shares, price = row
             # stock['name'] = name
             # stock['shares'] = int(shares)
